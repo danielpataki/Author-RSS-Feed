@@ -59,7 +59,7 @@ class Author_RSS_Feed_Widget extends WP_Widget {
         $count = ( !empty( $instance['count'] ) ) ? $instance['count'] : 5;
         $default_feed = ( !isset( $instance['default_feed'] ) ) ? 'https://wordpress.org/news/feed/' : $instance['default_feed'];
         $feed_field = ( !empty( $instance['feed_field'] ) ) ? $instance['feed_field'] : 'author_feed';
-        $show_on = ( !empty( $instance['show'] ) ) ? $instance['show'] : array( 'author_archives', 'single_posts' );
+        $show_on = ( !isset( $instance['show'] ) ) ? array( 'author_archives', 'single_posts' ) : $instance['show'];
         $show_on_options = array(
             'single_posts' => __( 'Single Posts', 'author-rss-feed' ),
             'author_archives' => __( 'Author Archives', 'author-rss-feed' ),
