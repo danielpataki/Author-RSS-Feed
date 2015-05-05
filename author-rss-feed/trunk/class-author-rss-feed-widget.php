@@ -57,7 +57,7 @@ class Author_RSS_Feed_Widget extends WP_Widget {
 
         $title = ( !empty( $instance['title'] ) ) ? $instance['title'] : '';
         $count = ( !empty( $instance['count'] ) ) ? $instance['count'] : 5;
-        $default_feed = ( !empty( $instance['default_feed'] ) ) ? $instance['default_feed'] : 'https://wordpress.org/news/feed/';
+        $default_feed = ( !isset( $instance['default_feed'] ) ) ? 'https://wordpress.org/news/feed/' : $instance['default_feed'];
         $feed_field = ( !empty( $instance['feed_field'] ) ) ? $instance['feed_field'] : 'author_feed';
         $show_on = ( !empty( $instance['show'] ) ) ? $instance['show'] : array( 'author_archives', 'single_posts' );
         $show_on_options = array(
@@ -125,13 +125,11 @@ class Author_RSS_Feed_Widget extends WP_Widget {
     public function widget( $args, $instance ) {
 
         $feed_url = $this->determine_feed_url( $instance );
-        $feed = $this->get_feed( $feed_url );
+        $feed = $this->get_feed( $feed_url, $instance['count'] );
 
         if( is_wp_error( $feed ) ) {
             return;
         }
-
-        $feed = array_slice( $feed, 0, $instance['count'] );
 
         echo $args['before_widget'];
 
@@ -185,7 +183,7 @@ class Author_RSS_Feed_Widget extends WP_Widget {
      * @since 1.0.0
      *
      */
-    function get_feed( $feed_url ) {
+    function get_feed( $feed_url, $feed_count ) {
 
         $feed_data = array();
         $feed = fetch_feed( $feed_url );
@@ -195,7 +193,8 @@ class Author_RSS_Feed_Widget extends WP_Widget {
         }
 
         $i=0;
-        foreach ( $feed->get_items( 0, $items ) as $item ) {
+
+        foreach ( $feed->get_items( 0, $feed_count ) as $item ) {
     		$link = $item->get_link();
     		while ( stristr( $link, 'http' ) != $link ) {
     			$link = substr( $link, 1 );
