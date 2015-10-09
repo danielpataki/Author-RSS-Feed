@@ -51,6 +51,9 @@ If you are having trouble, take a look at the [Managing Plugins](http://codex.wo
 
 == Changelog ==
 
+= 1.0.3 (2015-10-09) =
+* Added logic for better author detection
+
 = 1.0.2 (2015-05-12) =
 * Added widget_title filter to the widget title
 

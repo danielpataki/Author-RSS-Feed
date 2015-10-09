@@ -167,6 +167,10 @@ class Author_RSS_Feed_Widget extends WP_Widget {
         // Author Archive Authors
         elseif( is_author() ) {
             $profile = get_user_by( 'id', get_query_var( 'author' ) );
+            if( empty( $profile ) ) {
+                global $wp_query;
+                $profile = get_user_by( 'slug', $wp_query->query['author_name'] );
+            }
             $author_rss = get_user_meta( $profile->ID, $instance['feed_field'], true );
         }
 
